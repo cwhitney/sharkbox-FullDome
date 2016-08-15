@@ -3,6 +3,7 @@
 #include "cinder/gl/gl.h"
 #include "cinder/ObjLoader.h"
 #include "cinder/Camera.h"
+#include "Resources.h"
 
 namespace sb {
 
