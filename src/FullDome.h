@@ -10,13 +10,13 @@ namespace sb {
 
 	class FullDome {
 	public:
-		static FullDomeRef create( ci::CameraPersp *cam, const int &fboSize = 2048 ) { return std::make_shared<FullDome>(cam, fboSize); }
+		static FullDomeRef create( ci::CameraPersp *cam, const int &fboSize = 2048, const int &renderFboSize = 2048) { return std::make_shared<FullDome>(cam, fboSize); }
 
 		enum DomeCam {
 			UP, DOWN, LEFT, RIGHT
 		};
 
-		FullDome( ci::CameraPersp *cam, const int &fboSize = 2048);
+		FullDome( ci::CameraPersp *cam, const int &fboSize = 2048, const int &renderFboSize = 2048);
 		void resize();
 		void renderToFbo();
 		void draw();
@@ -26,11 +26,9 @@ namespace sb {
 		void bindCamera(DomeCam dir);
 		void unbindCamera(DomeCam dir);
 
-		ci::vec3 lookDir;
-
 	private:
-		void                        setupQuats();
-		ci::gl::VboMeshRef          loadObj(std::string loc);
+		void                    setupQuats();
+		ci::TriMeshRef          loadObj(std::string loc);
 
 		glm::fquat							mQuatL, mQuatR, mQuatU, mQuatD;
 

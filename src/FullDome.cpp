@@ -5,7 +5,7 @@ using namespace ci::app;
 using namespace std;
 using namespace sb;
 
-FullDome::FullDome(ci::CameraPersp *cam, const int &fboSize) {
+FullDome::FullDome(ci::CameraPersp *cam, const int &fboSize, const int &renderFboSize) {
 
     // Save the users camera for orientation
     mUserCam = cam;
@@ -19,12 +19,15 @@ FullDome::FullDome(ci::CameraPersp *cam, const int &fboSize) {
     // This is the camera we'll use to render the skinned meshes for our final fisheye image
 	mScreenCam.setAspectRatio(1.0);
 	mScreenCam.setEyePoint(vec3(0, 0, 1.35));
-	mScreenCam.setWorldUp(vec3(0, 1, 0));	
-
-	mBU = gl::Batch::create(loadObj("fulldome/top.obj"), gl::getStockShader(gl::ShaderDef().texture()));
-	mBD = gl::Batch::create(loadObj("fulldome/bottom.obj"), gl::getStockShader(gl::ShaderDef().texture()));
-	mBL = gl::Batch::create(loadObj("fulldome/left.obj"), gl::getStockShader(gl::ShaderDef().texture()));
-	mBR = gl::Batch::create(loadObj("fulldome/right.obj"), gl::getStockShader(gl::ShaderDef().texture()));
+	mScreenCam.setWorldUp(vec3(0, 1, 0));
+    
+    gl::GlslProgRef texShader = gl::getStockShader(gl::ShaderDef().texture());
+    texShader->uniform("uTex0", 0);
+    
+	mBU = gl::Batch::create(*loadObj("fulldome/top.obj"), texShader);
+	mBD = gl::Batch::create(*loadObj("fulldome/bottom.obj"), texShader);
+	mBL = gl::Batch::create(*loadObj("fulldome/left.obj"), texShader);
+	mBR = gl::Batch::create(*loadObj("fulldome/right.obj"), texShader);
 
 //	int fboSize = 2160;//2k
 	//int fboSize = 3840;//4k
@@ -34,20 +37,21 @@ FullDome::FullDome(ci::CameraPersp *cam, const int &fboSize) {
 	mFboU = gl::Fbo::create(fboSize, fboSize);
 	mFboD = gl::Fbo::create(fboSize, fboSize);
     
-    int CANVAS_WIDTH = 2048;
-    int CANVAS_HEIGHT = 2048;
-
-	mCompositeFbo = gl::Fbo::create(CANVAS_WIDTH, CANVAS_HEIGHT);
+	mCompositeFbo = gl::Fbo::create(renderFboSize, renderFboSize);
 
 	setupQuats();
 }
 
-gl::VboMeshRef FullDome::loadObj(std::string loc)
+TriMeshRef FullDome::loadObj(std::string loc)
 {
 	ObjLoader loader(loadAsset(loc));
-	TriMesh tm = ci::TriMesh(loader);
+	TriMeshRef tm = TriMesh::create(loader);
+    
+    if( ! loader.getAvailableAttribs().count( geom::NORMAL ) ){
+        tm->recalculateNormals();
+    }
 
-	return gl::VboMesh::create(tm);
+    return tm;//gl::VboMesh::create(*tm);
 }
 
 void FullDome::resize() {
@@ -56,11 +60,13 @@ void FullDome::resize() {
 
 void FullDome::setupQuats()
 {
-	glm::fquat fwd;
-	fwd = glm::rotate(fwd, (float)toRadians(-180.0f + lookDir.x), vec3(0, 1, 0));
-	fwd = glm::rotate(fwd, (float)toRadians(-90.0f + lookDir.y), vec3(0, 0, 1));
-	fwd = glm::rotate(fwd, (float)toRadians(90.0 + lookDir.z), vec3(0, 1, 0));
-
+	glm::fquat fwd = mUserCam->getOrientation();
+    /*
+	fwd = glm::rotate(fwd, (float)toRadians(-180.0f), vec3(0, 1, 0));
+	fwd = glm::rotate(fwd, (float)toRadians(-90.0f), vec3(0, 0, 1));
+	fwd = glm::rotate(fwd, (float)toRadians(90.0), vec3(0, 1, 0));
+     */
+    
 	//  L
 	mQuatL = fwd;
 	mQuatL = glm::rotate(mQuatL, (float)toRadians(-45.0f), vec3(1, 0, 0));
@@ -112,7 +118,6 @@ void FullDome::bindCamera(DomeCam dir) {
 		break;
 	}
 	gl::setMatrices(mCam);
-	gl::clear(ColorA(0, 0, 0, 1));
 }
 
 void FullDome::unbindCamera(DomeCam dir) {
@@ -144,8 +149,6 @@ void FullDome::renderToFbo() {
 		mScreenCam.setEyePoint(vec3(0, 0, 1));
 		mScreenCam.setOrtho(-1, 1, -1, 1, 0.0001f, 5000.f);
 		gl::setMatrices(mScreenCam);
-
-		gl::rotate(3.2425926535*-0.5f, vec3(0, 0, 1));
 		{
 			gl::ScopedTextureBind scTx1(mFboU->getColorTexture());
 			mBU->draw();
@@ -173,7 +176,6 @@ void FullDome::draw() {
 		mScreenCam.setEyePoint(vec3(0, 0, 1));
 		mScreenCam.setOrtho(-1, 1, -1, 1, 0.0001f, 5000.f);
 		gl::setMatrices(mScreenCam);
-		gl::rotate(3.2425926535*-0.5f, vec3(0,0,1));
 		{
 			gl::ScopedTextureBind scTx1(mFboU->getColorTexture());
 			mBU->draw();
@@ -190,6 +192,6 @@ void FullDome::draw() {
 			gl::ScopedTextureBind scTx4(mFboR->getColorTexture());
 			mBR->draw();
 		}
-
+        
 	}gl::popMatrices();
 }

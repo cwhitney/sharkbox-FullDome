@@ -21,6 +21,7 @@ class BasicSampleApp : public App {
     
     void keyDown( KeyEvent event ) override;
     
+    void render();
     void renderDome();
     
     CameraPersp         mCam;
@@ -29,6 +30,7 @@ class BasicSampleApp : public App {
     gl::BatchRef		mBatch;
     gl::VboRef			mInstanceDataVbo;
     gl::GlslProgRef		mGlsl;
+    gl::TextureRef      mTeapotTex;
     
     FullDomeRef         mFullDome;
     
@@ -43,34 +45,27 @@ void BasicSampleApp::setup()
     mCamUi.setCamera( &mCam );
     mCamUi.connect( getWindow() );
     
-    // Setup a batched teapot render. Check out the InstancedTeapots sample for more info on this.
+    // The following is all based off of the InstancedTeapots sample. Check it out for more info
+    mTeapotTex = gl::Texture::create( loadImage( loadAsset("texture.jpg") ) );
+    mGlsl = gl::GlslProg::create( loadAsset( "shaders/shader.vert" ), loadAsset( "shaders/shader.frag" ) );
     gl::VboMeshRef mesh = gl::VboMesh::create( geom::Teapot().subdivisions( 4 ) );
-    
-    // create an array of initial per-instance positions laid out in a 2D grid
     std::vector<vec3> positions;
     for( size_t i = 0; i < NUM_TEAPOTS; ++i ) {
         positions.push_back( vec3(  Rand::randVec3() * vec3(20.0) ) );
     }
-    
-    // create the VBO which will contain per-instance (rather than per-vertex) data
     mInstanceDataVbo = gl::Vbo::create( GL_ARRAY_BUFFER, positions.size() * sizeof(vec3), positions.data(), GL_DYNAMIC_DRAW );
-    
-    // we need a geom::BufferLayout to describe this data as mapping to the CUSTOM_0 semantic, and the 1 (rather than 0) as the last param indicates per-instance (rather than per-vertex)
     geom::BufferLayout instanceDataLayout;
     instanceDataLayout.append( geom::Attrib::CUSTOM_0, 3, 0, 0, 1 /* per instance */ );
-    
-    // now add it to the VboMesh we already made of the Teapot
     mesh->appendVbo( instanceDataLayout, mInstanceDataVbo );
-    
-    mGlsl = gl::GlslProg::create( loadAsset( "shaders/shader.vert" ), loadAsset( "shaders/shader.frag" ) );
-    
-    // and finally, build our batch, mapping our CUSTOM_0 attribute to the "vInstancePosition" GLSL vertex attribute
     mBatch = gl::Batch::create( mesh, mGlsl, { { geom::Attrib::CUSTOM_0, "vInstancePosition" } } );
     
     gl::enableDepthWrite();
     gl::enableDepthRead();
     
-    mFullDome = FullDome::create( &mCam );
+    
+    // Create the dome renderer!
+    // The args we're passing in mean that each individual camera will have an fbo size of 1024x1024, and the final composite fbo will be 2048x2048
+    mFullDome = FullDome::create( &mCam, 1024, 2048 );
 }
 
 void BasicSampleApp::keyDown( KeyEvent event )
@@ -89,35 +84,48 @@ void BasicSampleApp::update()
 
 void BasicSampleApp::renderDome()
 {
+    gl::ScopedTextureBind scTex(mTeapotTex, 0);
+    
     mFullDome->bindCamera(FullDome::DomeCam::LEFT);
-    mBatch->drawInstanced( NUM_TEAPOTS );
+    render();
     mFullDome->unbindCamera(FullDome::DomeCam::LEFT);
     
     mFullDome->bindCamera(FullDome::DomeCam::RIGHT);
-    mBatch->drawInstanced( NUM_TEAPOTS );
+    render();
     mFullDome->unbindCamera(FullDome::DomeCam::RIGHT);
     
     mFullDome->bindCamera(FullDome::DomeCam::UP);
-    mBatch->drawInstanced( NUM_TEAPOTS );
+    render();
     mFullDome->unbindCamera(FullDome::DomeCam::UP);
     
     mFullDome->bindCamera(FullDome::DomeCam::DOWN);
-    mBatch->drawInstanced( NUM_TEAPOTS );
+    render();
     mFullDome->unbindCamera(FullDome::DomeCam::DOWN);
+}
+
+void BasicSampleApp::render()
+{
+    gl::clear(ColorA(0, 0, 0, 1));
+    mBatch->drawInstanced( NUM_TEAPOTS );
+    gl::drawSphere(vec3(0, 0, 15), 1);
 }
 
 void BasicSampleApp::draw()
 {
-	gl::clear( Color( 1, 1, 1 ) );
+	gl::clear( Color( 0.5, 0.5, 0.5 ) );
     gl::color(1,1,1);
     
     if(!bShowFisheye){
         gl::setMatrices( mCam );
-//        gl::rotate(getElapsedSeconds() * 0.1, vec3(0, 1, 0));
         mBatch->drawInstanced( NUM_TEAPOTS );
+        gl::drawSphere(vec3(0, 0, 15), 1);
     }else{
         renderDome();
         mFullDome->draw();
+        
+        // You can also render to a texture like so
+        // mFullDome->renderToFbo();
+        // gl::TextureRef texRef = mFullDome->getFboTexture();
     }
 }
 
