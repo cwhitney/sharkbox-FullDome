@@ -1,5 +1,4 @@
 # sharkbox-FullDome
----
 
 A fulldome fisheye renderer for Cinder 0.9.0.
 
