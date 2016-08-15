@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cinder>
+  <block 
+  	name="Cinder-FullDome" 
+  	id="com.sharkbox.fulldome"
+  	author="Charlie Whitney"
+  	summary="A library for planetarium style fulldome graphics"
+	git="https://github.com/cwhitney/Cinder-FullDome"
+  	>
+	<supports os="macosx" />
+	
+	<headerPattern>src/pretzel/*.h</headerPattern>
+	<headerPattern>src/modules/*.h</headerPattern>
+	<headerPattern>src/components/*.h</headerPattern>
+	
+	<sourcePattern>src/components/*.cpp</sourcePattern>
+	<sourcePattern>src/modules/*.cpp</sourcePattern>
+	
+	
+	<platform os="macosx">
+		<source compileAs="mm">src/pretzel/PretzelGlobal.cpp</source>
+		<source>src/pretzel/PretzelGui.cpp</source>
+	</platform>
+	<platform os="msw">
+		<sourcePattern>src/pretzel/*.cpp</sourcePattern>
+	</platform>
+
+	<includePath>src</includePath>
+	
+	<resource
+		name="PRETZEL_GUI_SKIN"
+		type="IMAGE"
+		>resources/default_skin.png</resource>
+	<resource
+		name="PRETZEL_HSL_BAR"
+		type="IMAGE"
+		>resources/hslBar.png</resource>
+  </block>
+</cinder>
