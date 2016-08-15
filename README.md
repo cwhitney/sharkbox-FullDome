@@ -1,7 +1,6 @@
 # sharkbox-FullDome
-====
 
-A fullome fisheye renderer for Cinder 0.9.0.
+A fulldome fisheye renderer for Cinder 0.9.0.
 
 Big thanks to Paul Bourke whose work was critical to figuring this out, specifically [this post](http://paulbourke.net/dome/unityfisheye/).
 

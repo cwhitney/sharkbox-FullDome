@@ -1,39 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <cinder>
   <block 
-  	name="Cinder-FullDome" 
+  	name="sharkbox-FullDome" 
   	id="com.sharkbox.fulldome"
   	author="Charlie Whitney"
-  	summary="A library for planetarium style fulldome graphics"
-	git="https://github.com/cwhitney/Cinder-FullDome"
+  	summary="A library for planetarium style fulldome graphics for Cinder 0.9"
+	git="https://github.com/cwhitney/sharkbox-FullDome"
   	>
 	<supports os="macosx" />
 	
-	<headerPattern>src/pretzel/*.h</headerPattern>
-	<headerPattern>src/modules/*.h</headerPattern>
-	<headerPattern>src/components/*.h</headerPattern>
-	
-	<sourcePattern>src/components/*.cpp</sourcePattern>
-	<sourcePattern>src/modules/*.cpp</sourcePattern>
-	
-	
-	<platform os="macosx">
-		<source compileAs="mm">src/pretzel/PretzelGlobal.cpp</source>
-		<source>src/pretzel/PretzelGui.cpp</source>
-	</platform>
-	<platform os="msw">
-		<sourcePattern>src/pretzel/*.cpp</sourcePattern>
-	</platform>
+	<headerPattern>src/*.h</headerPattern>
+	<sourcePattern>src/*.cpp</sourcePattern>
 
 	<includePath>src</includePath>
 	
 	<resource
-		name="PRETZEL_GUI_SKIN"
-		type="IMAGE"
-		>resources/default_skin.png</resource>
+		name="FULLDOME_LEFT_OBJ"
+		type="TEXT"
+		>resources/fulldome/left.obj</resource>
 	<resource
-		name="PRETZEL_HSL_BAR"
-		type="IMAGE"
-		>resources/hslBar.png</resource>
+		name="FULLDOME_RIGHT_OBJ"
+		type="TEXT"
+		>resources/fulldome/right.obj</resource>
+	<resource
+		name="FULLDOME_TOP_OBJ"
+		type="TEXT"
+		>resources/fulldome/top.obj</resource>
+	<resource
+		name="FULLDOME_BOTTOM_OBJ"
+		type="TEXT"
+		>resources/fulldome/bottom.obj</resource>
   </block>
 </cinder>
