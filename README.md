@@ -1,11 +1,5 @@
-![PretzelGui Icon](https://raw.githubusercontent.com/cwhitney/PretzelGui/master/icon_48.png) Pretzel GUI
-========
-For use with Cinder 0.9.0
-A GUI built from the ground up for [Cinder](http://libcinder.org) for PC and OSX. Currently untested on linux.
-
-Made with the goal of creating a super simple to setup gui that looks nice.  Features built in saving/loading of settings by default.
-
-![PretzelGui Screenshot](https://raw.githubusercontent.com/cwhitney/PretzelGui/master/ss.png)
+# sharkbox-FullDome
+====
 
 ----
 The MIT License (MIT)
@@ -29,4 +23,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-# sharkbox-FullDome
+
