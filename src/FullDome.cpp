@@ -24,10 +24,10 @@ FullDome::FullDome(ci::CameraPersp *cam, const int &fboSize, const int &renderFb
     gl::GlslProgRef texShader = gl::getStockShader(gl::ShaderDef().texture());
     texShader->uniform("uTex0", 0);
     
-	mBU = gl::Batch::create(*loadObj(FULLDOME_TOP_OBJ), texShader);
-	mBD = gl::Batch::create(*loadObj(FULLDOME_BOTTOM_OBJ), texShader);
-	mBL = gl::Batch::create(*loadObj(FULLDOME_LEFT_OBJ), texShader);
-	mBR = gl::Batch::create(*loadObj(FULLDOME_RIGHT_OBJ), texShader);
+	mBU = gl::Batch::create(*loadObj( loadResource(FULLDOME_TOP_OBJ) ), texShader);
+	mBD = gl::Batch::create(*loadObj( loadResource(FULLDOME_BOTTOM_OBJ) ), texShader);
+	mBL = gl::Batch::create(*loadObj( loadResource(FULLDOME_LEFT_OBJ) ), texShader);
+	mBR = gl::Batch::create(*loadObj( loadResource(FULLDOME_RIGHT_OBJ) ), texShader);
 
 //	int fboSize = 2160;//2k
 	//int fboSize = 3840;//4k
@@ -42,9 +42,9 @@ FullDome::FullDome(ci::CameraPersp *cam, const int &fboSize, const int &renderFb
 	setupQuats();
 }
 
-TriMeshRef FullDome::loadObj(fs::path loc)
+TriMeshRef FullDome::loadObj( ci::DataSourceRef loadedObj )
 {
-	ObjLoader loader(loadResource(loc));
+	ObjLoader loader(loadedObj);
 	TriMeshRef tm = TriMesh::create(loader);
     
     if( ! loader.getAvailableAttribs().count( geom::NORMAL ) ){

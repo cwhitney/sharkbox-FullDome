@@ -31,7 +31,7 @@ namespace sb {
 
 	private:
 		void                    setupQuats();
-		ci::TriMeshRef          loadObj(ci::fs::path loc);
+		ci::TriMeshRef          loadObj(ci::DataSourceRef loadedObj);
 
 		glm::fquat							mQuatL, mQuatR, mQuatU, mQuatD;
 

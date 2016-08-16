@@ -1,0 +1,7 @@
+#include "../include/Resources.h"
+
+1	ICON	"..\\resources\\cinder_app_icon.ico"
+FULLDOME_LEFT_OBJ
+FULLDOME_RIGHT_OBJ
+FULLDOME_TOP_OBJ
+FULLDOME_BOTTOM_OBJ
