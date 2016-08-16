@@ -20,6 +20,10 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		C845B963CC4E481C80D9F71B /* BasicSampleApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 628EC8D850BA4B9BB5CB25F1 /* BasicSampleApp.cpp */; };
 		CB347B761D4ABE8800965C67 /* FullDome.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB347B741D4ABE8700965C67 /* FullDome.cpp */; };
+		CBCB3DF11D637EC400A934BB /* bottom.obj in Resources */ = {isa = PBXBuildFile; fileRef = CBCB3DED1D637EC400A934BB /* bottom.obj */; };
+		CBCB3DF21D637EC400A934BB /* left.obj in Resources */ = {isa = PBXBuildFile; fileRef = CBCB3DEE1D637EC400A934BB /* left.obj */; };
+		CBCB3DF31D637EC400A934BB /* right.obj in Resources */ = {isa = PBXBuildFile; fileRef = CBCB3DEF1D637EC400A934BB /* right.obj */; };
+		CBCB3DF41D637EC400A934BB /* top.obj in Resources */ = {isa = PBXBuildFile; fileRef = CBCB3DF01D637EC400A934BB /* top.obj */; };
 		FEDD145DBB6F4FBEB1E9E22C /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = A84F2FCE800944D1BEFFAD46 /* CinderApp.icns */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +48,10 @@
 		A84F2FCE800944D1BEFFAD46 /* CinderApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CinderApp.icns; path = ../resources/CinderApp.icns; sourceTree = "<group>"; };
 		CB347B741D4ABE8700965C67 /* FullDome.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FullDome.cpp; path = ../../../src/FullDome.cpp; sourceTree = "<group>"; };
 		CB347B751D4ABE8800965C67 /* FullDome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FullDome.h; path = ../../../src/FullDome.h; sourceTree = "<group>"; };
+		CBCB3DED1D637EC400A934BB /* bottom.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = bottom.obj; path = ../assets/fulldome/bottom.obj; sourceTree = "<group>"; };
+		CBCB3DEE1D637EC400A934BB /* left.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = left.obj; path = ../assets/fulldome/left.obj; sourceTree = "<group>"; };
+		CBCB3DEF1D637EC400A934BB /* right.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = right.obj; path = ../assets/fulldome/right.obj; sourceTree = "<group>"; };
+		CBCB3DF01D637EC400A934BB /* top.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = top.obj; path = ../assets/fulldome/top.obj; sourceTree = "<group>"; };
 		DC5BC66FB9344912AE16EABC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -163,6 +171,7 @@
 		CB347B721D4ABE7200965C67 /* Cinder-FullDome */ = {
 			isa = PBXGroup;
 			children = (
+				CBCB3DEB1D637EA600A934BB /* resources */,
 				CB347B731D4ABE7C00965C67 /* src */,
 			);
 			name = "Cinder-FullDome";
@@ -175,6 +184,25 @@
 				CB347B751D4ABE8800965C67 /* FullDome.h */,
 			);
 			name = src;
+			sourceTree = "<group>";
+		};
+		CBCB3DEB1D637EA600A934BB /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				CBCB3DEC1D637EB200A934BB /* fulldome */,
+			);
+			name = resources;
+			sourceTree = "<group>";
+		};
+		CBCB3DEC1D637EB200A934BB /* fulldome */ = {
+			isa = PBXGroup;
+			children = (
+				CBCB3DED1D637EC400A934BB /* bottom.obj */,
+				CBCB3DEE1D637EC400A934BB /* left.obj */,
+				CBCB3DEF1D637EC400A934BB /* right.obj */,
+				CBCB3DF01D637EC400A934BB /* top.obj */,
+			);
+			name = fulldome;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,6 +257,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBCB3DF31D637EC400A934BB /* right.obj in Resources */,
+				CBCB3DF21D637EC400A934BB /* left.obj in Resources */,
+				CBCB3DF11D637EC400A934BB /* bottom.obj in Resources */,
+				CBCB3DF41D637EC400A934BB /* top.obj in Resources */,
 				FEDD145DBB6F4FBEB1E9E22C /* CinderApp.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -3,6 +3,8 @@
 #include "cinder/gl/gl.h"
 #include "cinder/ObjLoader.h"
 #include "cinder/Camera.h"
+
+#include "cinder/CinderResources.h"
 #include "Resources.h"
 
 namespace sb {
@@ -29,7 +31,7 @@ namespace sb {
 
 	private:
 		void                    setupQuats();
-		ci::TriMeshRef          loadObj(std::string loc);
+		ci::TriMeshRef          loadObj(ci::fs::path loc);
 
 		glm::fquat							mQuatL, mQuatR, mQuatU, mQuatD;
 
