@@ -10,11 +10,6 @@ Internally FullDome will create four cameras.  Two that look left and right of c
 
 Each draw cycle each, one is bound and then rendered to an FBO.  Each FBO is then bound and mapped to a piece of geometry that makes up a piece of the final circular fisheye render.  This means that for each one frame, the scene is drawn four times.
 
-You can change the size of the individual fbos in the constructor.  The default is 2048 x 2048. Below we're setting it to 1024 x 1024.
-
-```mFullDome = FullDome::create( &mCam, 1024 );```
-
-
 Usage
 --
 Create a normal PerspCamera to drive the fulldome camera. 
@@ -23,6 +18,11 @@ Create a normal PerspCamera to drive the fulldome camera.
 CameraPersp mCam;
 mFullDome = FullDome::create( &mCam );
 ```
+
+You can change the size of the four individual camera fbos in the constructor.  The default is 2048 x 2048. Below we're setting it to 1024 x 1024.
+
+```mFullDome = FullDome::create( &mCam, 1024 );```
+
 During your draw render your scene once for each camera. 
 
 ```
