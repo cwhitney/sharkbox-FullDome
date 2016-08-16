@@ -44,8 +44,6 @@ FullDome::FullDome(ci::CameraPersp *cam, const int &fboSize, const int &renderFb
 
 TriMeshRef FullDome::loadObj(fs::path loc)
 {
-    console() << "Loading :: " << loc << endl;
-    
 	ObjLoader loader(loadResource(loc));
 	TriMeshRef tm = TriMesh::create(loader);
     

@@ -127,6 +127,9 @@ void BasicSampleApp::draw()
         // mFullDome->renderToFbo();
         // gl::TextureRef texRef = mFullDome->getFboTexture();
     }
+    
+    gl::drawString("Press any key to toggle modes.", vec2(10, 10));
+    gl::drawString("Drag mouse to change view.", vec2(10,30));
 }
 
 CINDER_APP( BasicSampleApp, RendererGl, [&](App::Settings *settings){
